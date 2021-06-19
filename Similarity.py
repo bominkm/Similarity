@@ -2,7 +2,7 @@ import pandas as pd
 import numpy as np
 from sklearn.metrics.pairwise import cosine_similarity
 from sklearn.feature_extraction.text import TfidfVectorizer
-
+import time
 
 def read_sum_data(path):
     sum_database = pd.read_csv(f'./{path}/summary_gpu.csv')
@@ -12,7 +12,7 @@ def vectorization(DATABASE,NEWS):
     database =  DATABASE
     news = NEWS
 
-    corpus=[x for x in database[:10]]
+    corpus=[x for x in database]
     corpus.append(news)
     vectorizer = TfidfVectorizer()
     X = vectorizer.fit_transform(corpus)
@@ -23,13 +23,14 @@ def Cosine_similarity(X,DATABASE):
     laws = X[:-1]
     database=DATABASE
     sim = cosine_similarity(news,laws)[0]
-    result = pd.DataFrame({'corpus':database[:10],
+    result = pd.DataFrame({'corpus':database,
                             'similarity':sim})
     final = result.sort_values('similarity').iloc[:3,0]
 
     return final
 
 if __name__ == '__main__':
+    start = time.time()  # 시작 시간 저장
     DATABASE = read_sum_data('./Sum_Database')
     NEWS = list(pd.read_csv('./Sum_Database/news.txt'))[0]
     X=vectorization(DATABASE,NEWS)
@@ -39,9 +40,8 @@ if __name__ == '__main__':
         text_file = open(f"./Output/output_{i+1}.txt", "w")
         n = text_file.write(f)
         text_file.close()
-        
-
-
+         
+    print("time :", time.time() - start)
 
 
 
