@@ -29,10 +29,9 @@ def Cosine_similarity(X,DATABASE):
 
     return final
 
-if __name__ == '__main__':
-    start = time.time()  # 시작 시간 저장
-    DATABASE = read_sum_data('./Sum_Database')
-    NEWS = list(pd.read_csv('./Sum_Database/news.txt'))[0]
+def make_simtext(law_path,new_path):
+    DATABASE = read_sum_data(law_path)
+    NEWS = list(pd.read_csv(new_path))[0]
     X=vectorization(DATABASE,NEWS)
     final = Cosine_similarity(X,DATABASE)
 
@@ -40,8 +39,14 @@ if __name__ == '__main__':
         text_file = open(f"./Output/output_{i+1}.txt", "w")
         n = text_file.write(f)
         text_file.close()
+
+if __name__ == '__main__':
+    #start = time.time()  # 시작 시간 저장
+    law_path = './Sum_Database'
+    news_path = './Sum_Database/news.txt'
+    make_simtext(law_path,news_path)
          
-    print("time :", time.time() - start)
+    #print("time :", time.time() - start)
 
 
 
