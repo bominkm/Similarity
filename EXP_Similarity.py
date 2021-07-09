@@ -44,34 +44,23 @@ def Cosine_similarity(X,DATABASE,NEWS,type,top_k):
     database=DATABASE
     if type == 'tfidf':
         cos_scores = cosine_similarity(news,laws)[0]
-        top_results = np.argpartition(-cos_scores, range(top_k))[0:top_k]
-
-        print("\n\n======================\n\n")
-        print("Query:", NEWS)
-        print(f"\nTop {top_k} most similar sentences in corpus:")
-
-        for idx in top_results[0:top_k]:
-            print(database[idx].strip(), "(Score: %.4f)" % (cos_scores[idx]))
-
-        result = pd.DataFrame({'corpus':database,
-                                'similarity':cos_scores})
-        final = result.sort_values('similarity').iloc[:top_k,0]
     
     if type =='bert':
         cos_scores = util.pytorch_cos_sim(news, laws)[0]
         cos_scores = cos_scores.cpu()
-        top_results = np.argpartition(-cos_scores, range(top_k))[0:top_k]
+    
+    top_results = np.argpartition(-cos_scores, range(top_k))[0:top_k]
 
-        print("\n\n======================\n\n")
-        print("Query:", news)
-        print(f"\nTop {top_k} most similar sentences in corpus:")
+    print("\n\n======================\n\n")
+    print("Query:", NEWS)
+    print(f"\nTop {top_k} most similar sentences in corpus:")
 
-        for idx in top_results[0:top_k]:
-            print(database[idx].strip(), "(Score: %.4f)" % (cos_scores[idx]))
+    for idx in top_results[0:top_k]:
+        print(database[idx].strip(), "(Score: %.4f)" % (cos_scores[idx]))
 
-        result = pd.DataFrame({'corpus':database,
-                                'similarity':cos_scores})
-        final = result.sort_values('similarity').iloc[:top_k,0]
+    result = pd.DataFrame({'corpus':database,
+                            'similarity':cos_scores})
+    final = result.sort_values('similarity').iloc[:top_k,0]
 
     return final
 
