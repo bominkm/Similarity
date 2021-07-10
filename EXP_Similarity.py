@@ -1,14 +1,17 @@
 import pandas as pd
 import numpy as np
 import argparse
-from sklearn.metrics.pairwise import cosine_similarity
-from sklearn.feature_extraction.text import TfidfVectorizer
-from transformers import AutoTokenizer, AutoModel
-from sentence_transformers import SentenceTransformer, util
-import numpy as np
-
 import torch
 import time
+
+from sklearn.metrics.pairwise import cosine_similarity
+from sklearn.feature_extraction.text import TfidfVectorizer
+
+from transformers import ElectraModel, ElectraTokenizer
+
+#from transformers import AutoTokenizer, AutoModel
+from sentence_transformers import SentenceTransformer, util
+
 
 def read_sum_data(path):
     sum_database = pd.read_csv(path)
@@ -25,15 +28,58 @@ def vectorization(DATABASE,NEWS,type):
         X = vectorizer.fit_transform(corpus)
         
     if type =='bert':
-        model_path = './KoSentenceBERT_SKTBERT/output/training_sts'
-        embedder = SentenceTransformer(model_path)
-        query = NEWS
+        # model_path = './KoSentenceBERT_SKTBERT/output/training_sts'
+        # embedder = SentenceTransformer(model_path)
+        # query = NEWS
 
-        corpus_embeddings = embedder.encode(corpus, convert_to_tensor=True)
-        query_embedding = embedder.encode(query, convert_to_tensor=True)
-        print(corpus_embeddings)
-        print(query_embedding)
-        X = corpus_embeddings + query_embedding
+        # corpus_embeddings = embedder.encode(corpus, convert_to_tensor=True)
+        # query_embedding = embedder.encode(query, convert_to_tensor=True)
+        # print(corpus_embeddings)
+        # print(query_embedding)
+        # X = corpus_embeddings + query_embedding
+        corpus.append(news)
+
+        device = torch.device("cuda" if torch.cuda.is_available() else "cpu")
+
+        model = ElectraModel.from_pretrained("monologg/koelectra-small-v3-discriminator")
+        tokenizer = ElectraTokenizer.from_pretrained("monologg/koelectra-small-v3-discriminator")
+        
+        model = model.to(device)
+        
+        tokens = {'input_ids': [], 'attention_mask': []}
+        MAX_LENGTH = 256
+        for sentence in corpus:
+            # encode each sentence and append to dictionary
+            ts = tokenizer.tokenize(sentence)
+            input_ids = tokenizer.convert_tokens_to_ids(ts)
+
+            if len(input_ids) >= MAX_LENGTH:
+                input_ids = input_ids[:MAX_LENGTH]
+                attention_mask = [1] * MAX_LENGTH
+            else:
+                n_to_pad = MAX_LENGTH - len(input_ids)
+                attention_mask = ([1] * len(input_ids)) + ([0]* n_to_pad)
+                input_ids = input_ids + ([0] * n_to_pad)
+        
+            input_ids= torch.as_tensor(input_ids)
+            attention_mask = torch.as_tensor(attention_mask)
+
+            tokens['input_ids'].append(input_ids)
+            tokens['attention_mask'].append(attention_mask)
+        # reformat list of tensors into single tensor
+        tokens['input_ids'] = torch.stack(tokens['input_ids'])
+        tokens['attention_mask'] = torch.stack(tokens['attention_mask'])
+
+        outputs = model(**tokens)
+
+        embeddings = outputs[0]
+        attention_mask = tokens['attention_mask']
+        mask = attention_mask.unsqueeze(-1).expand(embeddings.size()).float()
+        masked_embeddings = embeddings * mask
+        summed = torch.sum(masked_embeddings, 1)
+        summed_mask = torch.clamp(mask.sum(1), min=1e-9)
+        mean_pooled = summed / summed_mask
+        X = mean_pooled.detach().numpy()
 
     return X
 
