@@ -7,7 +7,7 @@ cosine similarity 계산
 
 1. tf-idf
 2. bert
-  > google drive law encoder pretrained tensor 다운로드 받기   
-  > .
-  > /Sum_Database에 넣기   
+  > 1. google drive law encoder pretrained tensor 다운로드 받기   
+  > 2. link : .
+  > 3. /Sum_Database 경로에 넣기
 
