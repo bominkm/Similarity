@@ -6,7 +6,7 @@ from sklearn.feature_extraction.text import TfidfVectorizer
 from sentence_transformers import SentenceTransformer, util
 import time
 
-def read_sum_data(path):
+def read_law_data(path):
     sum_database = pd.read_csv(path)
     sum_database=sum_database[sum_database.kobart_sum.notna()]
     return sum_database.kobart_sum.values.tolist()
@@ -40,7 +40,7 @@ def Cosine_similarity(X,DATABASE):
     return final
 
 def make_simtext(law_path,new_path):
-    DATABASE = read_sum_data(law_path)
+    DATABASE = read_law_data(law_path)
     NEWS = list(pd.read_csv(new_path))[0]
     X=vectorization(DATABASE,NEWS)
     final = Cosine_similarity(X,DATABASE)
