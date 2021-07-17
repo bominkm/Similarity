@@ -11,6 +11,9 @@ def read_law_data(path):
     sum_database=sum_database[sum_database.kobart_sum.notna()]
     return sum_database.kobart_sum.values.tolist()
 
+def read_news_data(path):
+    news_data = list(pd.read_csv(path))[0]
+    return news_data
 
 def vectorization(DATABASE,NEWS):
     model_path = 'paraphrase-multilingual-mpnet-base-v2'
@@ -39,9 +42,9 @@ def Cosine_similarity(X,DATABASE):
             final.append(DATABASE[idx].strip())
     return final
 
-def make_simtext(law_path,new_path):
+def make_simtext(law_path,news_path):
     DATABASE = read_law_data(law_path)
-    NEWS = list(pd.read_csv(new_path))[0]
+    NEWS = read_news_data(news_path)
     X=vectorization(DATABASE,NEWS)
     final = Cosine_similarity(X,DATABASE)
 
