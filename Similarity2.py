@@ -23,7 +23,7 @@ def vectorization(DATABASE,NEWS):
     return X
 
 def Cosine_similarity(X,DATABASE):
-    top_k = 3
+    top_k = 3 ; threshhold=0.9
     news = X[1]
     laws = X[0]
     cos_scores = util.pytorch_cos_sim(news, laws)[0]
@@ -33,7 +33,10 @@ def Cosine_similarity(X,DATABASE):
 
     final=[]
     for idx in top_results[0:top_k]:
-        final.append(DATABASE[idx].strip())
+        if cos_scores[idx] < threshhold:
+            final.append('유사한 판례가 없습니다.')
+        else:
+            final.append(DATABASE[idx].strip())
     return final
 
 def make_simtext(law_path,new_path):
