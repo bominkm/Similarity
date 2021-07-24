@@ -3,6 +3,7 @@ import numpy as np
 import argparse
 import torch
 import time
+import pickle
 
 from sklearn.metrics.pairwise import cosine_similarity
 from sklearn.feature_extraction.text import TfidfVectorizer
@@ -25,11 +26,15 @@ def vectorization(DATABASE,NEWS,type):
         X = vectorizer.fit_transform(database)
         
     if type =='bert':
-        model_path = 'paraphrase-multilingual-mpnet-base-v2'
+        #map_location=torch.device('cpu')
+        model_path = './-2021-07-14_21-48-16'
         embedder = SentenceTransformer(model_path)
         query = NEWS
-
-        corpus_embeddings = torch.load('./Sum_Database/law_encoder.pt')
+        #corpus_embeddings = torch.load('./Sum_Database/law_encoder.pt')
+        with open('./Sum_Database/embeddings.pkl', "rb") as fIn:
+            stored_data = pickle.load(fIn)
+            #corpus_sentences = stored_data['sentences']
+            corpus_embeddings = stored_data['embeddings']
         query_embedding = embedder.encode(query, convert_to_tensor=True)
         X = (corpus_embeddings,query_embedding)
     
@@ -121,7 +126,7 @@ if __name__ == '__main__':
     #start = time.time()  # 시작 시간 저장
     parser = argparse.ArgumentParser()
     # Directory paths
-    parser.add_argument('--law-dir', default='./Sum_Database/0706_KoBart512.csv')
+    parser.add_argument('--law-dir', default='./Sum_Database/concat.csv')
     parser.add_argument('--news-dir', default='./Sum_Database/news.txt')
     parser.add_argument('--emb-type', required=True, choices=['tfidf','fasttext','bert'])
     parser.add_argument('--top-k',default = 3)
