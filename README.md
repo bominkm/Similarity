@@ -8,7 +8,6 @@ cosine similarity 계산
 1. tf-idf
 2. bert    
   [사용법]   
-  > 1. google drive law encoder pretrained tensor 다운로드 받기   
-  > 2. link : https://drive.google.com/file/d/1nCCJGMbav5QEaOzc-1R1BlTdlXQkIF56/view?usp=sharing
-  > 3. /Sum_Database 경로에 넣기
+  > 1. concat.csv, embeddings.pkl 다운로드 받기 : https://drive.google.com/drive/u/0/folders/14j8_1jkGr3KwI88Xl53k9J63kqID9L16
+  > 2. /Sum_Database 경로에 넣기
 
