@@ -29,10 +29,17 @@ def vectorization(DATABASE,NEWS):
     query = NEWS
 
     #corpus_embeddings = torch.load('./Sum_Database/law_encoder.pt')
-    with open('./Sum_Database/embeddings.pkl', "rb") as fIn:
-        stored_data = pickle.load(fIn)
-        #corpus_sentences = stored_data['sentences']
-        corpus_embeddings = stored_data['embeddings']
+    if torch.cuda.is_available():
+        with open('./Sum_Database/embeddings.pkl', "rb") as fIn:
+            stored_data = pickle.load(fIn)
+            #corpus_sentences = stored_data['sentences']
+            corpus_embeddings = stored_data['embeddings']
+    else:
+        with open('./Sum_Database/embeddings_cpu.pkl', "rb") as fIn:
+            stored_data = pickle.load(fIn)
+            #corpus_sentences = stored_data['sentences']
+            corpus_embeddings = stored_data['embeddings']
+        
 
     query_embedding = embedder.encode(query, convert_to_tensor=True)
     X = (corpus_embeddings,query_embedding)
