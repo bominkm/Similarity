@@ -1,6 +1,8 @@
 import pandas as pd
 import numpy as np
 import torch
+import pickle
+import re
 from sklearn.metrics.pairwise import cosine_similarity
 from sklearn.feature_extraction.text import TfidfVectorizer
 from sentence_transformers import SentenceTransformer, util
@@ -13,20 +15,31 @@ def read_law_data(path):
 
 def read_news_data(path):
     news_data = list(pd.read_csv(path))[0]
-    return news_data
+    string = re.sub("[^ㄱ-ㅎㅏ-ㅣ가-힣 ]"," ", news_data)
+    string = re.sub(r'[·@%\\*=()/~#&\+á‘’“”?\xc3\xa1\-\|\:\;\!\-\,\_\~\$\'\"\[\]]', ' ', string) #remove punctuation
+    string = re.sub(r'\n',' ', string)     # remove enter
+    string = re.sub(r'[0-9]+', '', string) # remove number
+    string = re.sub(r'\s+', ' ', string)   #remove extra space
+    cleaned_news_data = re.sub(r'<[^>]+>',' ',string) #remove Html tags
+    return cleaned_news_data
 
 def vectorization(DATABASE,NEWS):
-    model_path = 'paraphrase-multilingual-mpnet-base-v2'
+    model_path = './-2021-07-14_21-48-16'
     embedder = SentenceTransformer(model_path)
     query = NEWS
 
-    corpus_embeddings = torch.load('./Sum_Database/law_encoder.pt')
+    #corpus_embeddings = torch.load('./Sum_Database/law_encoder.pt')
+    with open('./Sum_Database/embeddings.pkl', "rb") as fIn:
+        stored_data = pickle.load(fIn)
+        #corpus_sentences = stored_data['sentences']
+        corpus_embeddings = stored_data['embeddings']
+
     query_embedding = embedder.encode(query, convert_to_tensor=True)
     X = (corpus_embeddings,query_embedding)
     return X
 
 def Cosine_similarity(X,DATABASE):
-    top_k = 3 ; threshhold=0.9
+    top_k = 3 ; threshhold=0.3
     news = X[1]
     laws = X[0]
     cos_scores = util.pytorch_cos_sim(news, laws)[0]
@@ -48,7 +61,6 @@ def make_simtext(law_path,news_path):
     X=vectorization(DATABASE,NEWS)
     final = Cosine_similarity(X,DATABASE)
 
-
     for i,f in enumerate(final):
         text_file = open(f"./Output/output_{i+1}.txt", "w")
         n = text_file.write(f)
@@ -56,7 +68,7 @@ def make_simtext(law_path,news_path):
 
 if __name__ == '__main__':
     #start = time.time()  # 시작 시간 저장
-    law_path = './Sum_Database/0706_KoBart512.csv'
+    law_path = './Sum_Database/concat.csv'
     news_path = './Sum_Database/news.txt'
     make_simtext(law_path,news_path)
          
