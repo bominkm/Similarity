@@ -1,7 +1,11 @@
 # 뉴스 유사 판례 제공 웹서비스
-제 14회 빅데이터 연합동아리 BOAZ 빅데이터 컨퍼런스
+### 제 14회 빅데이터 연합동아리 BOAZ 빅데이터 컨퍼런스
 
 <p align="center"><img src="https://github.com/bominkm/Similarity/blob/master/PIN.png?raw=true"></p>
+- PIN 서비스는 Precedents In News의 약어로, 뉴스와 유사한 판례를 제공하는 웹서비스입니다.
+
+### Flow Chart
+<p align="center"><img src="https://github.com/bominkm/Similarity/blob/master/Flow Chart.png?raw=true"></p>
 
 cosine similarity 계산
 
