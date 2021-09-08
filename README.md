@@ -4,7 +4,7 @@
 <p align="center"><img src="https://github.com/bominkm/Similarity/blob/master/PIN.png?raw=true"></p>
 - PIN 서비스는 Precedents In News의 약어로, 뉴스와 유사한 판례를 제공하는 웹서비스입니다.
 
-### Flow Chart
+## Flow Chart
 <p align="center"><img src="https://github.com/bominkm/Similarity/blob/master/Flow Chart.png?raw=true"></p>
 
 cosine similarity 계산
