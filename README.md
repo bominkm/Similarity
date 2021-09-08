@@ -1,12 +1,13 @@
 # 뉴스 유사 판례 제공 웹서비스
-### 제 14회 빅데이터 연합동아리 BOAZ 빅데이터 컨퍼런스
+## 1. About
 
 <p align="center"><img src="https://github.com/bominkm/Similarity/blob/master/PIN.png?raw=true"></p>
-- PIN 서비스는 Precedents In News의 약어로, 뉴스와 유사한 판례를 제공하는 웹서비스입니다.
+- 제 14회 빅데이터 연합동아리 BOAZ 빅데이터 컨퍼런스 프로젝트입니다.
+- **PIN 서비스**는 Precedents In News의 약어로, **뉴스와 유사한 판례를 제공하는 웹서비스**입니다.
 
 <br>
 
-## Flow Chart
+## 2. Flow Chart
 <p align="center"><img src="https://github.com/bominkm/Similarity/blob/master/Flow Chart.png?raw=true"></p>
 
 <br>
@@ -23,7 +24,9 @@
   > 1. concat.csv, embeddings.pkl 다운로드 받기 : https://drive.google.com/drive/u/0/folders/14j8_1jkGr3KwI88Xl53k9J63kqID9L16
   > 2. /Sum_Database 경로에 넣기
 
-## Result
+<br>
+
+## 3. Result
 <p align="center"><img src="https://github.com/bominkm/Similarity/blob/master/Result.png?raw=true"></p>
 
 <br>
