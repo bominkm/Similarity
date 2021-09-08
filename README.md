@@ -1,7 +1,7 @@
 # 뉴스 유사 판례 제공 웹서비스
 제 14회 빅데이터 연합동아리 BOAZ 빅데이터 컨퍼런스
 
-<p align="center"><img src="https://user-images.githubusercontent.com/43749571/124492604-a760e700-ddef-11eb-9896-c4e869d4c392.jpg"></p>
+<p align="center"><img src="https://github.com/bominkm/Similarity/blob/master/PIN.png?raw=true"></p>
 
 cosine similarity 계산
 
