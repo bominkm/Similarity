@@ -2,7 +2,7 @@
 ## 1. About
 
 <p align="center"><img src="https://github.com/bominkm/Similarity/blob/master/PIN.png?raw=true"></p>
-- 제 14회 빅데이터 연합동아리 BOAZ 빅데이터 컨퍼런스 프로젝트입니다.
+- 제 14회 빅데이터 연합동아리 BOAZ 빅데이터 컨퍼런스 프로젝트입니다.  
 - **PIN 서비스**는 Precedents In News의 약어로, **뉴스와 유사한 판례를 제공하는 웹서비스**입니다.
 
 <br>
