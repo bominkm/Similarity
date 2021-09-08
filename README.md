@@ -23,3 +23,7 @@
   > 1. concat.csv, embeddings.pkl 다운로드 받기 : https://drive.google.com/drive/u/0/folders/14j8_1jkGr3KwI88Xl53k9J63kqID9L16
   > 2. /Sum_Database 경로에 넣기
 
+## Result
+<p align="center"><img src="https://github.com/bominkm/Similarity/blob/master/Result.png?raw=true"></p>
+
+<br>
