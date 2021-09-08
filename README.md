@@ -9,7 +9,8 @@
 <br>
 
 ## 2. Flow Chart
-<p align="center"><img src="https://github.com/bominkm/Similarity/blob/master/Flow Chart.png?raw=true"></p>
+<p align="center"><img src="https://github.com/bominkm/Similarity/blob/master/Flow-Chart-Modeling.png?raw=true"></p>
+<p align="center"><img src="https://github.com/bominkm/Similarity/blob/master/Flow-Chart-DB.png?raw=true"></p>
 
 <br>
 
